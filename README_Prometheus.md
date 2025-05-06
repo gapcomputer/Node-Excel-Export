@@ -1,35 +1,37 @@
-# Node Excel Export: Lightweight Excel File Generation for Node.js
+# Node-Excel-Export: A Lightweight, Flexible Excel Export Library for Node.js
 
 ## Project Overview
 
-Node Excel Export is a lightweight Node.js library designed to simplify the process of exporting data sets to Excel (.xlsx) files. Built to provide a straightforward and efficient solution for generating Excel spreadsheets programmatically.
+Node-Excel-Export is a lightweight Node.js library designed to simplify the process of generating Excel (xlsx) files programmatically. It provides a straightforward and flexible solution for exporting data sets into Excel spreadsheets with minimal configuration.
 
 ### Key Features
 
-- **Simple Data Export**: Easily convert data collections into Excel spreadsheets
-- **Flexible Configuration**: Supports multiple sheet generation and custom column definitions
-- **Lightweight Implementation**: Minimal dependencies with efficient performance
-- **Multiple Data Type Support**: Handles numbers, strings, dates, and boolean values
-- **Customizable Styling**: Supports custom column widths and cell styles
+- **Simple Data Export**: Easily convert JavaScript data arrays into Excel spreadsheets
+- **Multiple Sheet Support**: Create Excel files with multiple worksheets
+- **Flexible Column Configuration**: Define column types, captions, and custom styles
+- **Lightweight Implementation**: Minimal dependencies with a focus on core functionality
+- **Custom Cell Formatting**: Supports preprocessing and styling of cell data
 
-### Problem Domain
+### Primary Use Cases
 
-Many Node.js applications require the ability to generate Excel reports or export data for further analysis. This library addresses the common challenges of Excel file generation by providing a simple, intuitive interface for converting data sets into Excel-compatible formats.
+- Generating reports from application data
+- Bulk data exports
+- Automated spreadsheet creation in Node.js applications
+- Converting structured data to Excel format
 
-### Core Benefits
+### Benefits
 
-- Eliminates the complexity of manually creating Excel files
-- Reduces boilerplate code for data export functionality
-- Provides a consistent and reliable method for generating spreadsheets
-- Compatible with various data sources and structures
-- Minimizes external dependencies compared to more complex Excel generation libraries
+- No external Excel dependencies required
+- Pure JavaScript implementation
+- Supports various data types (strings, numbers, dates, booleans)
+- Efficient memory usage with shared string optimization
 
 ## Getting Started, Installation, and Setup
 
 ### Prerequisites
 
-- Node.js (version compatible with Node.js)
-- npm package manager
+- Node.js (version compatible with the project's dependencies)
+- npm (Node Package Manager)
 
 ### Installation
 
@@ -44,413 +46,335 @@ npm install excel-export
 #### Basic Usage
 
 ```javascript
-const ExcelExport = require('excel-export');
+const nodeExcel = require('excel-export');
 
-// Configure your Excel sheet
-const config = {
+// Define configuration for Excel export
+const conf = {
   cols: [
-    { caption: 'Name', type: 'string' },
-    { caption: 'Age', type: 'number' }
+    { caption: 'Column 1', type: 'string' },
+    { caption: 'Column 2', type: 'date' }
   ],
   rows: [
-    ['John Doe', 28],
-    ['Jane Smith', 32]
+    ['Data 1', new Date()],
+    ['Data 2', new Date()]
   ]
 };
 
 // Generate Excel file
-const excelBuffer = ExcelExport.execute(config);
+const result = nodeExcel.execute(conf);
 ```
 
-### Development and Production
+### Configuration Options
+
+#### Columns Configuration
+- `caption`: Column header text
+- `type`: Data type (`string`, `date`, `bool`, `number`)
+- `width`: Column width
+- `beforeCellWrite`: Optional function for data transformation
+
+#### Advanced Features
+- Custom styling via XML file
+- Date and formatting transformations
+- Supports large datasets
+
+### Development
 
 #### Running Tests
-
-To run the project tests:
-
 ```bash
 npm test
 ```
 
-### Platform Compatibility
-
-The library supports:
-- Windows
-- macOS
-- Linux
-
-### Dependencies
-
-Key dependencies will be automatically installed:
-- `collections`: ^3.0.0
-- `node-zip`: 1.x
-
-### Performance Considerations
-
-- For large datasets, use `executeAsync()` method
-- Recommended to manage memory for extensive data exports
+### Compatibility
+- Works with Node.js environments
+- Generates Excel (.xlsx) files
+- Compatible with various data types and large datasets
 
 ## Features / Capabilities
 
-The Node Excel Export library provides a simple and flexible solution for exporting data sets to Excel (.xlsx) files with the following core features:
+### Core Features
 
-### Data Export Capabilities
-- Export multiple data sets to separate worksheets
-- Support for various data types:
-  - Strings
+#### XLSX Export Functionality
+- Generate Excel (.xlsx) files programmatically
+- Support for multiple sheet creation
+- Flexible data export with configurable column types and styles
+
+#### Data Type Support
+- Export various data types:
+  - Text
   - Numbers
   - Dates
   - Boolean values
-- Customizable column widths
-- Ability to apply custom styles to cells and columns
 
-### Flexible Configuration
-- Dynamic column definition
-- Optional cell preprocessing
-- Custom caption styling
-- Configurable sheet names
+#### Advanced Configuration Options
+- Custom column captions
+- Column width customization
+- Per-column style configuration
+- Pre-cell write data transformation
+- Shared string optimization for text cells
 
-### Advanced Features
-- Shared string optimization for efficient Excel file generation
-- Support for custom XML styling
-- Cross-platform compatibility via Node.js
+#### Technical Capabilities
+- Generates standard Office Open XML (.xlsx) compatible spreadsheets
+- Supports Node.js environments
+- Lightweight and dependency-minimal implementation
+- Async and synchronous export methods
 
-### Supported Data Transformations
-- Automatic XML escaping for special characters
-- Cell value transformation through `beforeCellWrite` callback
-- Flexible type handling for different data formats
+### Supported Cell Types
+| Type | Description | Example |
+|------|-------------|---------|
+| `string` | Text content | `"Hello World"` |
+| `number` | Numeric values | `42`, `3.14` |
+| `date` | Date objects | `new Date()` |
+| `bool` | Boolean values | `true`, `false` |
 
-### Examples
-```javascript
-// Basic export configuration
-var config = {
-  name: 'Sales Report',
-  cols: [
-    { caption: 'Name', type: 'string' },
-    { caption: 'Amount', type: 'number' },
-    { caption: 'Date', type: 'date' }
-  ],
-  rows: [
-    ['John Doe', 1000, new Date()],
-    ['Jane Smith', 1500, new Date()]
-  ]
-};
-```
-
-### Compatibility
-- Works with Node.js environments
-- Generates standard .xlsx files compatible with Microsoft Excel, Google Sheets, and other spreadsheet software
+### Configuration Flexibility
+Supports comprehensive configuration for each sheet, including:
+- Column definitions
+- Data rows
+- Custom styles
+- Cell transformations
 
 ## Usage Examples
 
-### Basic Export
-
-Create a simple Excel export with predefined column configurations and data:
+### Basic Export with String and Numeric Data
 
 ```javascript
-const excel = require('excel-export');
+const nodeExcel = require('excel-export');
 
 // Define column configuration
 const conf = {
   cols: [
-    { caption: 'Name', type: 'string', width: 20 },
-    { caption: 'Age', type: 'number', width: 10 },
-    { caption: 'Date', type: 'date', width: 15 }
+    { 
+      caption: 'Name', 
+      type: 'string', 
+      width: 20 
+    },
+    { 
+      caption: 'Age', 
+      type: 'number', 
+      width: 10 
+    }
   ],
   rows: [
-    ['John Doe', 28, new Date()],
-    ['Jane Smith', 35, new Date()]
+    ['John Doe', 30],
+    ['Jane Smith', 25]
   ]
 };
 
 // Generate Excel file
-const result = excel.execute(conf);
+const excelBuffer = nodeExcel.execute(conf);
+
+// If in Express/HTTP context
+res.setHeader('Content-Type', 'application/vnd.openxmlformats');
+res.setHeader('Content-Disposition', 'attachment; filename=report.xlsx');
+res.end(excelBuffer, 'binary');
 ```
 
-### Multiple Sheet Export
-
-Export data to multiple sheets in a single workbook:
+### Advanced Export with Multiple Data Types
 
 ```javascript
-const excel = require('excel-export');
-
-// Configuration for multiple sheets
-const multiSheetConfig = [
-  {
-    name: 'Employees',
-    cols: [
-      { caption: 'Name', type: 'string' },
-      { caption: 'Department', type: 'string' }
-    ],
-    rows: [
-      ['John Doe', 'Sales'],
-      ['Jane Smith', 'Marketing']
-    ]
-  },
-  {
-    name: 'Departments',
-    cols: [
-      { caption: 'Department Name', type: 'string' },
-      { caption: 'Head Count', type: 'number' }
-    ],
-    rows: [
-      ['Sales', 10],
-      ['Marketing', 8]
-    ]
-  }
-];
-
-// Generate multi-sheet Excel file
-const result = excel.execute(multiSheetConfig);
-```
-
-### Advanced Column Configuration
-
-Customize cell rendering and styling:
-
-```javascript
-const excel = require('excel-export');
-
-const config = {
+const conf = {
   cols: [
-    { 
-      caption: 'Employee', 
-      type: 'string', 
-      beforeCellWrite: (row, cellData, event) => {
-        // Custom cell data transformation
-        return cellData.toUpperCase();
-      }
+    {
+      caption: 'Description',
+      type: 'string',
+      beforeCellWrite: (row, cellData) => cellData.toUpperCase(),
+      width: 20
     },
-    { 
-      caption: 'Salary', 
-      type: 'number', 
-      beforeCellWrite: (row, cellData, event) => {
-        // Custom styling based on value
-        if (cellData > 50000) {
-          event.styleIndex = 2; // High salary style
+    {
+      caption: 'Date',
+      type: 'date',
+      beforeCellWrite: (row, cellData, options) => {
+        if (cellData === null) {
+          options.cellType = 'string';
+          return 'N/A';
         }
         return cellData;
-      }
+      },
+      width: 15
+    },
+    {
+      caption: 'Boolean',
+      type: 'bool'
+    },
+    {
+      caption: 'Numeric Value',
+      type: 'number',
+      width: 15
     }
   ],
   rows: [
-    ['John Doe', 45000],
-    ['Jane Smith', 55000]
+    ['First Entry', new Date(), true, 3.14159],
+    ['Second Entry', new Date(), false, 2.7182]
   ]
 };
 
-const result = excel.execute(config);
+const result = nodeExcel.execute(conf);
 ```
 
-### Custom Styles
-
-Apply custom XML styles to your Excel sheet:
+### Generating Large Datasets
 
 ```javascript
-const excel = require('excel-export');
-
-const config = {
-  cols: [
-    { caption: 'Name', type: 'string' },
-    { caption: 'Score', type: 'number' }
-  ],
-  rows: [
-    ['John', 85],
-    ['Jane', 92]
-  ],
-  stylesXmlFile: '/path/to/custom/styles.xml'
+const conf = {
+  cols: Array.from({length: 10}, (_, i) => ({
+    caption: `Column ${i+1}`,
+    type: 'string'
+  })),
+  rows: Array.from({length: 1000}, () => 
+    Array.from({length: 10}, () => Math.random().toString())
+  )
 };
 
-const result = excel.execute(config);
+const result = nodeExcel.execute(conf);
 ```
+
+### Notes
+- The library supports different cell types: `string`, `number`, `date`, `bool`
+- Use `beforeCellWrite` for custom cell preprocessing
+- Specify column width and captions
+- Complex transformations can be applied to cell data
 
 ## Project Structure
 
-The project is organized with the following key directories and files:
+The project is organized with the following structure:
 
-#### Main Project Files
-- `index.js`: The primary entry point of the library
-- `sheet.js`: Likely contains core functionality for Excel sheet manipulation
-- `package.json`: Defines project metadata, dependencies, and scripts
+```
+.
+├── example/
+│   ├── app.js             # Example application demonstrating usage
+│   ├── package.json       # Example project dependencies
+│   └── styles.xml         # Custom styling configuration for Excel export
+├── test/
+│   └── main.js            # Test suite for the library
+├── index.js               # Main entry point for the Excel export library
+├── sheet.js               # Core implementation for generating Excel worksheets
+└── package.json           # Project metadata and dependencies
+```
 
-#### Example Directory
-- `example/`: Contains example implementation and demonstration files
-  - `app.js`: Sample application showcasing library usage
-  - `styles.xml`: Potentially defines styling for Excel exports
-  - `package.json`: Example project dependencies
+### Key Directories and Files
 
-#### Testing
-- `test/`: Contains project test suite
-  - `main.js`: Main test file for the library
+#### Source Files
+- `index.js`: The primary module for Excel export functionality, handling the core generation process
+- `sheet.js`: Contains the `Sheet` class responsible for generating individual Excel worksheets
+
+#### Example and Testing
+- `example/app.js`: Demonstrates how to use the Excel export library
+- `test/main.js`: Contains tests to verify library functionality
 
 #### Configuration
-- `.gitignore`: Specifies intentionally untracked files to ignore
-
-### Project Dependencies
-The project uses minimal dependencies:
-- `collections`: Data structure utilities
-- `node-zip`: Excel file (xlsx) generation support
-- Development dependencies include `mocha` for testing
-
-## Technologies Used
-
-#### Languages
-- JavaScript (Node.js)
-
-#### Core Dependencies
-- `collections`: Data structure library for advanced collection manipulation
-- `node-zip`: ZIP file creation and manipulation library
-
-#### Development and Testing
-- Mocha: Testing framework for JavaScript
-- Should.js: Assertion library for test cases
-
-#### Runtime Environment
-- Node.js
-
-#### File Formats
-- Excel XLSX
-- XML (via `styles.xml`)
-
-#### Package Management
-- npm (Node Package Manager)
+- `package.json`: Defines project metadata, dependencies, and scripts
+- `example/styles.xml`: Optional custom styling configuration for Excel sheets
 
 ## Additional Notes
 
-### Performance Considerations
+### Performance Insights
 
-The library is designed with memory efficiency in mind for Excel file generation. Key considerations include:
+The Excel export library is engineered with memory efficiency and performance in mind. It provides lightweight Excel generation with optimized handling of various data types and export scenarios.
 
-- Optimized shared string handling to reduce memory usage
-- Support for generating multiple sheets in a single workbook
-- Lightweight implementation with minimal external dependencies
+#### Memory Management
+- Minimizes memory overhead through shared string optimization
+- Supports incremental data processing for large datasets
+- Designed for efficient memory utilization during Excel file generation
 
-### Data Type Handling
+### Data Processing Capabilities
 
-The export mechanism provides specialized handling for different cell types:
+#### Type Conversion Strategies
+- Automatic type inference and conversion for Excel cell values
+- Specialized handling for different data types:
+  - Numbers: Precise numeric representation
+  - Dates: Standardized Excel date serialization
+  - Booleans: Native Excel boolean mapping
+  - Strings: XML-escaped with shared string optimization
 
-- **Numbers**: Preserved with numeric precision
-- **Dates**: Converted using Excel's native date serialization format
-- **Booleans**: Translated to Excel's boolean representation
-- **Strings**: XML-escaped and stored in shared strings to minimize file size
+### Technical Considerations
 
-### Customization Capabilities
+#### Extensibility
+- Flexible configuration options for custom export requirements
+- Support for dynamic column definitions
+- Preprocessing hooks for cell value transformations
 
-Developers can enhance export functionality through various configuration options:
+#### Compatibility Constraints
+- Generates Excel 2007+ (.xlsx) format files
+- Requires Node.js runtime environment
+- Cross-platform support (Windows, macOS, Linux)
 
-- Dynamic column width configuration
-- Custom cell value transformations
-- Column-specific styling via XML stylesheet
-- Flexible sheet and column type definitions
+### Potential Integration Scenarios
+- Reporting systems
+- Data analysis tools
+- Administrative dashboards
+- Export functionality for web applications
 
-#### Supported Column Types
-- `string` (default)
-- `number`
-- `date`
-- `bool`
-
-### Known Limitations
-
-- Memory management may be required for large datasets
-- Complex formatting beyond basic styling might need custom XML manipulation
-- Potential timezone considerations with date cell conversions
-
-### Compatibility Notes
-
-- Generates Excel 2007+ (.xlsx) format spreadsheets
-- Works across Windows, macOS, and Linux environments
-- Requires Node.js runtime
-
-### External Dependencies
-
-- `collections` (^3.0.0): Data structure utilities
-- `node-zip` (1.x): ZIP file processing
+### Security and Reliability
+- Minimal external dependencies reduce potential vulnerability surface
+- XML-based processing with built-in escaping mechanisms
+- Consistent and predictable export behavior across different data sources
 
 ## Contributing
 
-We welcome and appreciate contributions to this project! To ensure a smooth and collaborative contribution process, please follow these guidelines:
+We welcome contributions to the Excel Export library! To ensure a smooth and collaborative contribution process, please follow these guidelines:
 
-### How to Contribute
+### Contribution Process
 
-1. **Fork the Repository**
-   - Create a fork of the main repository
-   - Clone your forked repository to your local machine
+1. **Reporting Issues**
+   - Use GitHub Issues to report bugs or suggest improvements
+   - Provide a clear and detailed description
+   - Include steps to reproduce the issue
+   - If possible, include code snippets or example configurations
 
-2. **Create a Branch**
+2. **Development Setup**
+   - Fork the repository
+   - Clone your forked repository
+   - Install dependencies: `npm install`
    - Create a new branch for your feature or bugfix
-   - Use a clear and descriptive branch name
-   - Example: `feature/add-new-export-option` or `bugfix/resolve-date-formatting-issue`
 
-### Development Setup
+### Code Guidelines
 
-1. **Prerequisites**
-   - Node.js (compatible with the project's current version)
-   - npm package manager
-
-2. **Installation**
-   ```bash
-   git clone <repository-url>
-   cd excel-export
-   npm install
-   ```
-
-### Contribution Guidelines
-
-#### Code Style
-- Follow the existing code conventions in the project
+#### Coding Standards
+- Follow existing code conventions in the project
 - Use clear and descriptive variable and function names
 - Add comments to explain complex logic
-- Ensure consistent formatting and indentation
+- Maintain consistent code formatting
 
 #### Testing
 - Write unit tests for new features or bug fixes
-- Ensure all tests pass before submitting a pull request
-- Use Mocha for writing tests
-- Aim for high test coverage
+- Use Mocha for testing
+- Run tests using: `npm test`
+- Ensure all existing tests pass before submitting a pull request
 
-#### Submitting Changes
-1. Commit your changes with a clear and descriptive commit message
+### Pull Request Workflow
+1. Commit your changes with a clear, descriptive message
 2. Push your branch to your fork
 3. Open a pull request against the main repository
 4. Provide a detailed description of your changes
-   - What problem does this solve?
-   - What is the proposed solution?
-   - Are there any side effects or potential issues?
-
-### Pull Request Process
-- Ensure your code passes all existing tests
-- Add new tests for any new functionality
-- Update documentation to reflect your changes
-- Your pull request will be reviewed by the maintainers
-- Be prepared to make revisions based on feedback
-
-### Reporting Issues
-- Use GitHub Issues to report bugs or suggest improvements
-- Provide a clear and detailed description
-- Include steps to reproduce the issue
-- If possible, include code snippets or screenshots
 
 ### Code of Conduct
-- Be respectful and considerate of others
-- Collaborate constructively
-- Help create an inclusive and welcoming environment
+- Be respectful and collaborative
+- Help create an inclusive development environment
 
-### Licensing
-By contributing, you agree that your contributions will be licensed under the project's BSD License.
+### Development Dependencies
+- Mocha: Testing framework
+- Should.js: Assertion library
 
-### Questions?
-If you have any questions about contributing, please open an issue for discussion.
+### Notes
+- Contributions are accepted under the project's BSD License
+- Aim to maintain the library's lightweight and efficient design
+
+If you have any questions, please open an issue for discussion.
 
 ## License
 
-This project is licensed under the BSD License. 
+This project is licensed under the BSD License.
 
-For the full license text, please refer to the license details specified in the `package.json` file. The BSD License is a permissive free software license that allows for reuse within both free and proprietary software.
+### License Details
+- **License Type**: BSD License
+- **Full License Text**: Available in the project's `LICENSE` file
+- **Key Permissions**:
+  - Commercial use allowed
+  - Modification permitted
+  - Distribution allowed
+  - Private use allowed
 
-### Key Provisions
-- Redistribution and use in source and binary forms are permitted
-- Modifications and derivative works are allowed
-- Attribution to the original author is typically required
+### Conditions
+- Redistribution must retain the original copyright notice
+- Attribution to the original author is required
 
-#### License Identifier
-- SPDX License Identifier: BSD
+For the complete and official license terms, please refer to the project's license file.
